@@ -52,6 +52,17 @@ class Model:
             logger.debug(f"{message["role"].upper()} message {i}")
             logger.debug(f"{message['content']}")
 
+    @staticmethod
+    def log_tools(tools: List[Dict[str, Any]]) -> None:
+        """Log tools sent to the LLM for debugging."""
+        if not tools:
+            logger.debug("No tools sent to LLM")
+            return
+        logger.debug(f"Tools sent to LLM ({len(tools)}):")
+        for tool in tools:
+            fn = tool.get("function", {})
+            logger.debug(f"  - {fn.get('name', '?')}: {fn.get('description', '')[:80]}")
+
     def chat_completion(
         self,
         system_prompt: str,

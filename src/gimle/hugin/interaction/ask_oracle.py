@@ -37,6 +37,7 @@ class AskOracle(Interaction):
     prompt: Optional[Prompt] = None
     template_inputs: Optional[Dict[str, Any]] = None
     include_in_context: bool = True
+    tools: Optional[List[str]] = None
 
     @staticmethod
     def create_from_external_input(
@@ -250,6 +251,8 @@ class AskOracle(Interaction):
             raise ValueError("AskOracle template inputs is None")
 
         tools = self.stack.get_tools(branch=self.branch)
+        # Capture tool names for monitoring/debugging
+        self.tools = [t.name for t in tools] if tools else []
         interaction_messages = self.stack.render_stack_context(
             branch=self.branch
         )

@@ -1906,6 +1906,14 @@ function renderInteractionTypeDetails(interaction) {
         if (interaction.include_in_context === false) {
             html += `<div style="margin-top: 8px;"><span class="badge badge-warning">Excluded from context</span></div>`;
         }
+        if (interaction.tools && interaction.tools.length > 0) {
+            html += `<div style="margin-top: 8px;">
+                <strong>Tools sent to LLM (${interaction.tools.length}):</strong>
+                <div style="margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px;">
+                    ${interaction.tools.map(t => `<code style="font-size: 0.75rem; padding: 2px 6px; background: var(--bg-secondary); border-radius: 4px;">${escapeHtml(t)}</code>`).join('')}
+                </div>
+            </div>`;
+        }
         html += `</div>`;
     }
 

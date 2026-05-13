@@ -91,6 +91,7 @@ class OpenAIModel(Model):
         openai_messages = self._convert_messages(system_prompt, messages)
 
         Model.log_messages(messages)
+        Model.log_tools(tools_to_use)
 
         try:
             kwargs: Dict[str, Any] = {

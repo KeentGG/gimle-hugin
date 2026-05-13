@@ -1548,6 +1548,8 @@ class AgentMonitorHTTPRequestHandler(BaseHTTPRequestHandler):
             ("chain_config", "chain_config"),
             # Context inclusion (AskOracle, ToolResult)
             ("include_in_context", "include_in_context"),
+            # Tools sent to LLM (AskOracle)
+            ("tools", "tools"),
             # AskHuman-specific fields
             ("question", "question"),
             # ExternalInput-specific fields
