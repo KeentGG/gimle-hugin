@@ -232,6 +232,7 @@ class OllamaModel(Model):
         system_prompt: str,
         messages: List[Dict[str, Any]],
         tools: Optional[List[Tool]] = None,
+        **kwargs: Any,
     ) -> ModelResponse:
         """Generate a chat completion using Ollama API."""
         if tools is None:

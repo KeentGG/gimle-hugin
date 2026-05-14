@@ -36,6 +36,7 @@ class Config:
     interactive: bool = False
     enable_builtin_agents: bool = True
     options: Dict[str, Any] = field(default_factory=dict)
+    temperature: Optional[float] = None
     state_namespaces: List[str] = field(default_factory=lambda: ["common"])
     # Config state machine for dynamic transitions
     state_machine: Optional["ConfigStateMachine"] = None
