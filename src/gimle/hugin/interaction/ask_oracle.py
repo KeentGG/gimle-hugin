@@ -275,6 +275,7 @@ class AskOracle(Interaction):
             messages=interaction_messages,
             tools=tools,
             llm_model=llm_model,
+            temperature=self.stack.agent.config.temperature,
         )
         logger.debug(f"Assistant response: {assistant_response}")
         self.stack.add_interaction(

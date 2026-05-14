@@ -44,6 +44,7 @@ class OpenAIModel(Model):
         system_prompt: str,
         messages: List[Dict[str, Any]],
         tools: Optional[List[Tool]] = None,
+        **kwargs: Any,
     ) -> ModelResponse:
         """Generate a chat completion using OpenAI API."""
         try:
@@ -93,20 +94,23 @@ class OpenAIModel(Model):
         Model.log_messages(messages)
 
         try:
-            kwargs: Dict[str, Any] = {
+            api_kwargs: Dict[str, Any] = {
                 "model": self.model_name,
                 "messages": openai_messages,
                 "max_completion_tokens": self.max_tokens,
             }
 
-            if self.temperature is not None:
-                kwargs["temperature"] = self.temperature
+            # Use temperature override from agent config if provided,
+            # otherwise fall back to model default
+            effective_temp = kwargs.get("temperature", self.temperature)
+            if effective_temp is not None:
+                api_kwargs["temperature"] = effective_temp
 
             if tools_to_use:
-                kwargs["tools"] = tools_to_use
-                kwargs["tool_choice"] = self.tool_choice
+                api_kwargs["tools"] = tools_to_use
+                api_kwargs["tool_choice"] = self.tool_choice
 
-            response = client.chat.completions.create(**kwargs)
+            response = client.chat.completions.create(**api_kwargs)
 
         except openai.APIError as error:
             logging.error(

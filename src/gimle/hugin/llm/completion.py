@@ -1,7 +1,7 @@
 """Chat completion."""
 
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from ..tools.tool import Tool
 from .models.model_registry import get_model_registry
@@ -30,8 +30,17 @@ def chat_completion(
     messages: List[Dict[str, Any]],
     tools: List[Tool],
     llm_model: str,
+    temperature: Optional[float] = None,
 ) -> dict:
-    """Chat completion."""
+    """Chat completion.
+
+    Args:
+        system_prompt: The system prompt.
+        messages: The messages.
+        tools: The tools.
+        llm_model: The LLM model name.
+        temperature: Optional temperature override (from agent config).
+    """
     logging.debug(f"Chat completion using {llm_model} model")
 
     # Temporarily suppress noisy third-party library logging during LLM call
@@ -49,7 +58,7 @@ def chat_completion(
         provider = model_registry.get_provider(llm_model)
         if provider:
             ensure_credentials_loaded(provider)
-        return model.chat_completion(system_prompt, messages, tools).to_dict()
+        return model.chat_completion(system_prompt, messages, tools, temperature=temperature).to_dict()
     finally:
         # Restore original log levels
         for logger_name, original_level in original_levels.items():

@@ -53,8 +53,16 @@ class Model:
         system_prompt: str,
         messages: List[Dict[str, Any]],
         tools: Optional[List[Tool]] = None,
-    ) -> ModelResponse:
-        """Generate a chat completion."""
+        **kwargs: Any,
+    ) -> "ModelResponse":
+        """Generate a chat completion.
+
+        Args:
+            system_prompt: The system prompt.
+            messages: The conversation messages.
+            tools: Optional list of tools.
+            **kwargs: Additional options (e.g. temperature override).
+        """
         raise NotImplementedError("chat_completion not implemented")
 
     @property
