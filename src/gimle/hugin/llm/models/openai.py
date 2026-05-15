@@ -229,9 +229,7 @@ class OpenAIModel(Model):
                             "type": "function",
                             "function": {
                                 "name": item.get("name", ""),
-                                "arguments": json.dumps(
-                                    item.get("input", {})
-                                ),
+                                "arguments": json.dumps(item.get("input", {})),
                             },
                         }
                     ],
